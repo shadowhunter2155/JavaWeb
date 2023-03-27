@@ -65,22 +65,25 @@
 				$("#submit-btn").text($(this).hasClass('edit-btn')?'修改':'刪除');
 			});
 			
-			// 按下 salary-btn
-			$(document).on('click', '.salary-btn', function() {
+			// 按下 salary-field
+			$(document).on('click', '.salary-field', function() {
+				var employees = employeeList;
+				// 增加一個屬性 data-sort-order 來決定排序方向
 				var sortOrder = this.getAttribute('data-sort-order') || 'desc';
 				if(sortOrder == 'desc') {
-					employeeList.sort(function(emp1, emp2) {
+					employees.sort(function(emp1, emp2) {
 						return emp2.salary - emp1.salary;
 					});
 					this.setAttribute('data-sort-order', 'asc');
 				} else {
-					employeeList.sort(function(emp1, emp2) {
+					employees.sort(function(emp1, emp2) {
 						return emp1.salary - emp2.salary;
 					});
 					this.setAttribute('data-sort-order', 'desc');
 				}
+				console.log(JSON.stringify(employees));
 				$("#employee-list").empty();
-				$.each(employeeList, function(index, emp){
+				$.each(employees, function(index, emp){
 					var html = '';
 					// 組 tbody-tr-td
 					html += '<tr>';
@@ -211,7 +214,7 @@
 				<table class="pure-table pure-table-bordered">
 					<thead>
 						<tr>
-							<th>ID</th><th>姓名</th><th class="salary-btn">薪資</th><th>修改</th><th>刪除</th>
+							<th>ID</th><th>姓名</th><th title="按我一下可以排序" style="cursor: pointer;" class="salary-field">薪資</th><th>修改</th><th>刪除</th>
 						</tr>
 					</thead>
 					<tbody id="employee-list">
