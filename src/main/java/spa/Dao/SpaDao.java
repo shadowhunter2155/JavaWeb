@@ -1,15 +1,14 @@
 package spa.Dao;
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import spa.Entity.Master;
+import spa.Entity.Member;
 import spa.Entity.Order;
 import spa.Entity.Spa;
-import spa.Entity.Member;
 
 public class SpaDao {
 	// 資料庫
@@ -17,22 +16,20 @@ public class SpaDao {
 	private static List<Master> masterList;
 	private static List<Order> orderList;
 	private static List<Member> memberList;
-	
 	static {
 		spaList = List.of(
-				new Spa(1, "SPA", "透過調節水溫、水壓，結合香蘭精油、礦物質等，達到各種療效", 90, 1500),
-				new Spa(2, "推拿", "在身體特定部位施行按捏、摩擦、震動、活動關節等動作，恢復或改善身體機能", 60, 1000),
-				new Spa(3, "足底按摩", "對應身體的某一器官、部位的問題，調節下身體機能", 30, 600),
-				new Spa(4, "指壓", "運用手指或手肘根據經絡及肌肉走向，按壓緩解身體的酸痛不適", 60, 1200),
-				new Spa(5, "油壓", "手法較指壓溫和，將精油混合按摩油，人塗抹在需要按摩的部位", 60, 1380),
-				new Spa(6, "泰式按摩", "通過壓足、壓腰、踩脊等方式協助伸展肢體，是各類按摩中最大動作的一種", 90, 1680)
+				new Spa(1, "SPA", "透過調節水溫、水壓,結合香蘭精油 礦物質等,達到各種療效", 90, 1500),
+				new Spa(2, "推拿", "在身體特定部位施行按捏、摩擦、震動、活動關節等動作,恢復或改善身體機能", 60, 1000),
+				new Spa(3, "足底按摩", "對應身體的某一器官、部位的問題,調節下身體機能", 30, 600),
+				new Spa(4, "指壓", "運用手指或手肘根據經絡及肌肉走向,按壓緩解身體的酸痛不適", 60, 1200),
+				new Spa(5, "油壓", "手法較指壓溫和,將精油混合按摩油,人塗抹在需要按摩的部位", 60, 1380),
+				new Spa(6, "泰式按摩", "通過壓足、壓腰、踩脊等方式協助伸展肢體,是各類按摩中最大動作的一種", 90, 1680)
 		);
 		masterList = List.of(
 				new Master(101, "John"), new Master(102, "Mary"), new Master(103, "Bob")
 		);
 		orderList = new ArrayList<>();
-		memberList = List.of(
-				new Member("A01", "1234",1), new Member("B02", "2222",0), new Member("C03", "3333",0));
+		memberList = List.of(new Member("A01", "1234", 1), new Member("B02", "2222", 0), new Member("C03", "3333", 0));
 	}
 	
 	public List<Member> queryAllMembers() {  // 查詢所有客戶(Member)資料

@@ -16,7 +16,7 @@
 		<title>Spa Page</title>
 	</head>
 	<body style="padding: 0px">
-		<!-- Title -->
+		<!-- Title  -->
 		<%@include file="/WEB-INF/view/spa/spa_title.jspf" %>
 		<!-- Spa Table -->
 		<table style="padding: 20px">
@@ -27,7 +27,7 @@
 				</td>
 				<td valign="top">
 					<!-- Spa 產品說明 -->
-					<%@include file="/WEB-INF/view/spa/spa_product.jspf" %>									
+					<%@include file="/WEB-INF/view/spa/spa_product.jspf" %>
 				</td>
 			</tr>
 		</table>

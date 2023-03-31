@@ -3,14 +3,13 @@ package spa.Entity;
 public class Member {
 	private String username;
 	private String password;
-	private int priority;
-		
+	private int priority; // 權限 (0:最小權限)
+	
 	public Member() {
 		
 	}
 
 	public Member(String username, String password, int priority) {
-		super();
 		this.username = username;
 		this.password = password;
 		this.priority = priority;
@@ -39,4 +38,7 @@ public class Member {
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
+	
+	
+	
 }

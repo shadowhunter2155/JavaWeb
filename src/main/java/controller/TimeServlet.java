@@ -15,12 +15,21 @@ public class TimeServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 回傳設定 UTF-8
 		resp.setCharacterEncoding("UTF-8");
-		resp.setContentType("text/html;charset=UTF-8");		
+		// 告訴瀏覽器我的文件格式是 text/html, 編碼是 UTF-8
+		resp.setContentType("text/html;charset=UTF-8");
 		
+		// 取得現在時間
 		Date now = new Date();
+		// 時間格式化
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd a hh:mm:ss E");
+		// 時間 + 格式化
 		String output = sdf.format(now);
-		resp.getWriter().printf("The time is %s",output);
+		// 將資料直接傳給前端瀏覽器
+		resp.getWriter().print(output);
+		
+		
 	}
+	
 }

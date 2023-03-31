@@ -16,22 +16,22 @@
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
-	
+
 	<error-page>
 		<error-code>500</error-code>
 		<location>/WEB-INF/view/spa/spa_error.jsp</location>
 	</error-page>
-	
+
 	<filter>
 		<filter-name>AFilter</filter-name>
 		<filter-class>filter.AFilter</filter-class>
-	</filter>
-	
+	</filter>	
+
 	<filter>
 		<filter-name>BFilter</filter-name>
 		<filter-class>filter.BFilter</filter-class>
-	</filter>
-	
+	</filter>	
+
 	<filter>
 		<filter-name>CFilter</filter-name>
 		<filter-class>filter.CFilter</filter-class>
@@ -51,4 +51,5 @@
 		<filter-name>CFilter</filter-name>
 		<url-pattern>/servlet/*</url-pattern>
 	</filter-mapping>
+	
 </web-app>

@@ -22,40 +22,43 @@ import spa.Entity.Spa;
 @WebServlet("/servlet/spa/*")
 public class SpaController extends HttpServlet {
 	private SpaDao spaDao = new SpaDao();
-
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<Spa> spaList = spaDao.queryAllSpas();
+		System.out.println("path info = " + req.getPathInfo());
+		
+		List<Spa> spaList = spaDao.queryAllSpas(); 
 		List<Master> masterList = spaDao.queryAllMasters();
 		
-		HttpSession session = req.getSession(false);
+		HttpSession session = req.getSession(false); // false 不另外產生新的 session, 而使用當下的 session
 		List<Order> orderList = null;
 		if(session != null && session.getAttribute("member") instanceof Member) {
 			Member member = (Member)session.getAttribute("member");
 			orderList = spaDao.queryOrdersByMember(member);
 		}
+		//List<Order> orderList = spaDao.queryOrders(); // 所有的預約單
 		
-
 		String dispatcherPath = null;
 		switch (req.getPathInfo()) {
-		case "/":
-			dispatcherPath = "/WEB-INF/view/spa/spa.jsp";
-			break;
-		case "/list":
-			dispatcherPath = "/WEB-INF/view/spa/spa_reserve_result.jsp";
-			break;
-		case "/login":
-			dispatcherPath = "/WEB-INF/view/spa/spa_login.jsp";
-			break;
-		case "/logout":
-			if(session!=null) {
-				session.invalidate();
-			}
-			dispatcherPath = "/WEB-INF/view/spa/spa_logout.jsp";
-			break;
-		default:
-			resp.sendRedirect("http://localhost:8080/JavaWeb/servlet/spa/");
-			return;
+			case "/": // Spa 預約網頁 (http://localhost:8080/JavaWeb/servlet/spa/)
+				dispatcherPath = "/WEB-INF/view/spa/spa.jsp";
+				break;
+			case "/list": // Spa 預約結果網頁 (http://localhost:8080/JavaWeb/servlet/spa/list)
+				dispatcherPath = "/WEB-INF/view/spa/spa_reserve_result.jsp";
+				break;	
+			case "/login": // 登入網頁 (http://localhost:8080/JavaWeb/servlet/spa/login)
+				dispatcherPath = "/WEB-INF/view/spa/spa_login.jsp";
+				break;
+			case "/logout": // 登出網頁 (http://localhost:8080/JavaWeb/servlet/spa/logout)
+				// 清除 session
+				if(session != null) {
+					session.invalidate(); // session 失效
+				}
+				dispatcherPath = "/WEB-INF/view/spa/spa_logout.jsp";
+				break;	
+			default:
+				resp.sendRedirect("http://localhost:8080/JavaWeb/servlet/spa/"); // 重導至首頁
+				return;
 		}
 		// 分派器
 		RequestDispatcher rd = req.getRequestDispatcher(dispatcherPath);
@@ -63,23 +66,60 @@ public class SpaController extends HttpServlet {
 		req.setAttribute("masterList", masterList);
 		req.setAttribute("orderList", orderList);
 		rd.forward(req, resp);
+		
 	}
-
+	
 	// 新增預約按摩
 	// spa.jsp 按下表單的預約按鈕後會執行到的方法
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		switch (req.getPathInfo()) {
-		case "/":
-			doOrder(req, resp);
-			break;
-		case "/login":
-			doLogin(req, resp);
-			break;
+			case "/": // 新增預約 (http://localhost:8080/JavaWeb/servlet/spa/) 
+				doOrder(req, resp);
+				break;
+			case "/login": // 登入驗證 (http://localhost:8080/JavaWeb/servlet/spa/login) 
+				doLogin(req, resp);
+				break;
 		}
-
 	}
-
+	
+	private void doLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 中文編碼配置
+		req.setCharacterEncoding("UTF-8");
+		resp.setCharacterEncoding("UTF-8");
+		resp.setContentType("text/html;charset=UTF-8");
+		// 抓取表單參數
+		String username = req.getParameter("username");
+		String password = req.getParameter("password");
+		// 登入驗證
+		List<Member> memberList = spaDao.queryAllMembers();
+		Optional<Member> optMember = memberList.stream()
+				.filter(m -> m.getUsername().equals(username) && m.getPassword().equals(password))
+				.findAny();
+		boolean isPass = optMember.isPresent();
+		
+		//resp.getWriter().print("login check...<p>");
+		//resp.getWriter().print(username + "<p>");
+		//resp.getWriter().print(password + "<p>");
+		//resp.getWriter().print(isPass + "<p>");
+		
+		if(isPass) {
+			// 將登入資訊寫入 session
+			HttpSession session = req.getSession();
+			//session.setMaxInactiveInterval(15); // 設定 15 秒鐘
+			session.setAttribute("member", optMember.get());
+			session.setAttribute("isPass", isPass);
+			// 登入成功導入 Spa 首頁
+			resp.sendRedirect("http://localhost:8080/JavaWeb/servlet/spa/"); // 重導至首頁
+		} else {
+			// 登入失敗 
+			RuntimeException re = new RuntimeException("登入失敗");
+			throw re;
+			//resp.sendError(500, "登入失敗");
+		}
+	}
+	
 	private void doOrder(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 中文編碼配置
 		req.setCharacterEncoding("UTF-8");
@@ -132,38 +172,4 @@ public class SpaController extends HttpServlet {
 		rd.forward(req, resp);
 	} 
 	
-
-
-	private void doLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
-		resp.setCharacterEncoding("UTF-8");
-		resp.setContentType("text/html;charset=UTF-8");
-		
-		String username = req.getParameter("username");
-		String password = req.getParameter("password");
-		
-		List<Member> memberList = spaDao.queryAllMembers();
-		Optional<Member> optMember = memberList.stream()
-				.filter(m -> m.getUsername().equals(username)&&m.getPassword().equals(password))
-				.findAny();
-		boolean isPass = optMember.isPresent();
-		
-		/*
-		resp.getWriter().print("login check...<p>");
-		resp.getWriter().print(username + "<p>");
-		resp.getWriter().print(password + "<p>");
-		resp.getWriter().print(isPass + "<p>");
-		*/
-		
-		if(isPass) {
-			HttpSession session = req.getSession();
-			session.setAttribute("member", optMember.get());
-			session.setAttribute("isPass", isPass);
-			resp.sendRedirect("http://localhost:8080/JavaWeb/servlet/spa/");
-		} else {
-			RuntimeException re = new RuntimeException("登入失敗");
-			throw re;
-		}
-	}
-
 }

@@ -22,7 +22,7 @@ public class ReportB extends HttpServlet {
 	}
 	
 	private void doHandler(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.getWriter().println("This is Report B");
+		resp.getWriter().println("ChatGPT 將為你加薪為你效力");
 	}
 	
 }

@@ -5,11 +5,10 @@ public class User {
 	private Integer salary;
 	
 	public User() {
-		
+	
 	}
 	
 	public User(String name, Integer salary) {
-		super();
 		this.name = name;
 		this.salary = salary;
 	}
@@ -26,5 +25,6 @@ public class User {
 	public void setSalary(Integer salary) {
 		this.salary = salary;
 	}
+	
 	
 }

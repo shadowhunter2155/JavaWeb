@@ -31,17 +31,19 @@ public class SecretFilter extends HttpFilter {
 				// 放行
 				chain.doFilter(req, res);
 			} else {
+				session.invalidate();
 				// 重導
 				RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/view/secret/secret.jsp");
 				rd.forward(req, res);
 			}
-		} 
-		else {
+		} else {
+			session.invalidate();
 			// 重導
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/view/secret/secret.jsp");
 			rd.forward(req, res);
 		}
-		session.invalidate();
+		
+		
 	}
 	
 }

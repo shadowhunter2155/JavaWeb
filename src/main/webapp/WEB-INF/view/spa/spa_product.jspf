@@ -2,6 +2,7 @@
 <%@ page import="spa.Entity.Spa"%>
 <%@ page import="java.util.List"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
+
 <form class="pure-form">
 	<fieldset>
 		<legend>Spa 產品說明</legend>
@@ -16,14 +17,14 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% for (Spa spa : spaList) {	%>
-				<tr onmouseover="this.style.backgroundColor='#bcc6a3'"
-					onmouseout="this.style.backgroundColor='#ffffff'">
-					<td align="center"><%=spa.getId()%></td>
-					<td><%=spa.getName()%></td>
-					<td><%=spa.getContent()%></td>
-					<td align="center"><%=spa.getTime()%></td>
-					<td align="right">$<%=spa.getPrice()%></td>
+				<% for(Spa spa : spaList) { %>
+				<tr onmouseover="this.style.backgroundColor='#91A561'" 
+					onmouseout="this.style.backgroundColor='#FFFFFF'">
+					<td align="center"><%=spa.getId() %></td>
+					<td><%=spa.getName() %></td>
+					<td><%=spa.getContent() %></td>
+					<td align="center"><%=spa.getTime() %></td>
+					<td align="right">$<%=spa.getPrice() %></td>
 				</tr>
 				<% } %>
 			</tbody>

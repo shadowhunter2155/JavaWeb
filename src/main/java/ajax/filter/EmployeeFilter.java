@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebFilter("/ajax/employees/*")
-public class EmployeeFilter extends HttpFilter{
+public class EmployeeFilter extends HttpFilter {
 
 	@Override
 	protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		
+		// 設定編碼
 		req.setCharacterEncoding("UTF-8");
 		res.setCharacterEncoding("UTF-8");
-		res.setContentType("application/json;charset=utf-8");
-		
-		res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+		res.setContentType("application/json");
+		// 設定 no-cache
+		res.setHeader("Cache-Control", "must-revalidate, no-cache, no-store");
 		res.setHeader("Pragma", "no-cache");
-		res.setDateHeader("Expires", -1);
+		res.setDateHeader("Expires", 0);
 		
 		chain.doFilter(req, res);
 	}

@@ -1,5 +1,6 @@
 package ajax.entity;
 
+import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ public class Employee {
 	private Integer salary;
 	
 	public Employee() {
-
+		
 	}
 	
 	public Integer getId() {

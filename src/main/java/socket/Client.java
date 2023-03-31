@@ -14,7 +14,7 @@ public class Client {
 		
 		// Client 連到 Server 端
 		Socket socket = new Socket(hostName, port);
-		System.out.println("sucess!");
+		System.out.println("Client 連到 Server 端成功");
 		
 		// 建立 Client-Server 的 I/O 通訊
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -34,7 +34,7 @@ public class Client {
 		}
 		
 		socket.close();
-		System.out.println("closed");
+		System.out.println("Client 關閉");
 	}
 	
 }

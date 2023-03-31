@@ -22,7 +22,7 @@ public class ReportA extends HttpServlet {
 	}
 	
 	private void doHandler(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.getWriter().println("This is Report A");
+		resp.getWriter().println("雞蛋批發價漲3元");
 	}
 	
 }

@@ -13,7 +13,9 @@
 		<form class="pure-form" method="get" action="/JavaWeb/html/bmi.html">
 			<fieldset>
 				<legend>BMI 計算結果</legend>
-				<%=request.getAttribute("output") %> <p>
+				<!-- 結果資料顯示 -->
+				<%=request.getAttribute("output") %><p>
+				<!-- 返回鍵 -->
 				<button type="submit" class="pure-button pure-button-primary">返回</button>
 			</fieldset>
 		</form>

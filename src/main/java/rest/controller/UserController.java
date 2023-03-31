@@ -15,18 +15,25 @@ import rest.entity.User;
 import rest.service.UserService;
 
 @WebServlet("/rest/user/*")
-public class UserController extends HttpServlet{
+public class UserController extends HttpServlet {
 	
 	private UserService userService = UserService.getUserServiceInstance();
+	
 	private Integer parsePathInfo(String pathInfo) {
-		Pattern pattern = Pattern.compile("^/\\d+$");
-		Matcher matcher = pattern.matcher(pathInfo);
-		if(matcher.find()) {
+		/*
+		  ^    首
+		  \\d  數字
+		  +    1..* 個
+		  $    尾 
+		*/
+		Pattern pattern = Pattern.compile("^/\\d+$"); // 正則表示式
+		Matcher matcher = pattern.matcher(pathInfo);  // 匹配: pathInfo 有沒有符合 pattern
+		
+		if(matcher.find()) { // 有匹配到
 			return Integer.parseInt(pathInfo.substring(1));
 		}
 		return null;
-	};
-	
+	}
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,10 +56,8 @@ public class UserController extends HttpServlet{
 			} else { // 修改
 				req.setAttribute("_method", "PUT");
 			}
-			
 		}
 		rd.forward(req, resp);
-		
 	}
 
 	@Override
@@ -81,8 +86,11 @@ public class UserController extends HttpServlet{
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int id = Integer.parseInt(req.getParameter("id"));
+		// 刪除程序
 		userService.delete(id);
+		// 重導
 		resp.sendRedirect("/JavaWeb/rest/user/");
 	}
+
 	
 }
